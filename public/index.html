@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AutoList - 아마존 상품 자동 등록</title>
+<meta name="theme-color" content="#0f1115">
+<meta name="description" content="아마존·멀티마켓 상품 등록·재고·주문·판매·리뷰 자동 대행 플랫폼">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AutoList">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<!-- 로그인 -->
+<div id="authView" class="auth-wrap">
+  <div class="auth-box">
+    <div class="brand">Auto<span>List</span></div>
+    <div class="tagline">아마존 상품 등록 자동 대행 플랫폼</div>
+    <div id="loginForm">
+      <label>이메일</label>
+      <input id="loginEmail" type="email" value="admin@autolist.local" autocomplete="username">
+      <label>비밀번호</label>
+      <input id="loginPw" type="password" value="admin1234" autocomplete="current-password">
+      <div style="margin-top:18px"><button class="btn-primary" style="width:100%" onclick="doLogin()">로그인</button></div>
+      <div style="margin-top:12px;text-align:center" class="muted">
+        셀러 신규 가입? <a href="#" onclick="toggleAuth('register');return false">회원가입</a>
+      </div>
+    </div>
+    <div id="registerForm" class="hidden">
+      <label>이름 / 상호</label>
+      <input id="regName" type="text" placeholder="홍길동 스토어">
+      <label>이메일</label>
+      <input id="regEmail" type="email" autocomplete="username">
+      <label>비밀번호 (6자 이상)</label>
+      <input id="regPw" type="password" autocomplete="new-password">
+      <label>요금제 선택</label>
+      <select id="regPlan">
+        <option value="free">무료 — 상품 20개 / 월 업로드 10회</option>
+        <option value="pro">프로 — 14일 무료 체험 (카드 불필요)</option>
+        <option value="business">비즈니스 — 14일 무료 체험 (카드 불필요)</option>
+      </select>
+      <div style="margin-top:18px"><button class="btn-blue" style="width:100%" onclick="doRegister()">가입하고 시작</button></div>
+      <div style="margin-top:12px;text-align:center" class="muted">
+        이미 계정이 있나요? <a href="#" onclick="toggleAuth('login');return false">로그인</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 메인 -->
+<div id="appView" class="hidden">
+  <div class="topbar">
+    <button class="burger" onclick="toggleDrawer()" aria-label="메뉴">☰</button>
+    <div class="tb-brand">Auto<span>List</span></div>
+    <span class="tb-badge"><button class="btn-ghost" onclick="go('alerts');closeDrawer()" id="tbAlerts" style="padding:6px 10px">알림</button></span>
+  </div>
+  <div class="drawer-overlay" onclick="closeDrawer()"></div>
+  <div class="app">
+  <aside class="side">
+    <div class="brand">Auto<span>List</span></div>
+    <div class="tagline">아마존 자동 등록</div>
+    <nav class="nav" id="nav">
+      <button data-page="dashboard" class="active">대시보드</button>
+      <button data-page="alerts">알림</button>
+      <button data-page="products">상품 관리</button>
+      <button data-page="add">상품 추가</button>
+      <button data-page="upload">아마존 업로드</button>
+      <button data-page="inventory">재고 관리</button>
+      <button data-page="shipping">배송 처리</button>
+      <button data-page="pricing">가격 규칙</button>
+      <button data-page="sourcing">소싱 발굴</button>
+      <button data-page="pending">대기·검토</button>
+      <button data-page="automation">자동화</button>
+      <button data-page="competitors">경쟁 분석</button>
+      <button data-page="sales">판매 현황</button>
+      <button data-page="reviews">리뷰 관리</button>
+      <button data-page="profit">정산·순이익</button>
+      <button data-page="billing">요금제</button>
+      <button data-page="settings">연동 설정</button>
+      <button data-page="sellers" id="navSellers">셀러 관리</button>
+    </nav>
+    <div class="side-foot">
+      <div id="meInfo"></div>
+      <div style="margin-top:10px"><button class="btn-ghost" style="width:100%" onclick="doLogout()">로그아웃</button></div>
+    </div>
+  </aside>
+
+  <main class="main" id="main"></main>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="/app.js"></script>
+</body>
+</html>
